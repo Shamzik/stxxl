@@ -22,6 +22,7 @@
 
 #if STXXL_HAVE_WBTL_FILE
 
+#include <functional>
 #include <map>
 
 #include <stxxl/bits/io/disk_queued_file.h>
@@ -65,7 +66,7 @@ class wbtl_file : public disk_queued_file
     size_type curpos;
     request_ptr backend_request;
 
-    struct FirstFit : public std::binary_function<place, offset_type, bool>
+    struct FirstFit : public std::function<bool(place, offset_type)>
     {
         bool operator () (
             const place& entry,

@@ -68,7 +68,7 @@ struct my_type : public uint32_pair_type
 };
 
 template <typename ValueType>
-struct my_cmp : public std::binary_function<ValueType, ValueType, bool>
+struct my_cmp : public std::function<bool(ValueType, ValueType)>
 {
     bool operator () (const ValueType& a, const ValueType& b) const
     {

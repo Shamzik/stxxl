@@ -44,7 +44,7 @@ class disk_allocator : private noncopyable
 {
     typedef std::pair<stxxl::int64, stxxl::int64> place;
 
-    struct first_fit : public std::binary_function<place, stxxl::int64, bool>
+    struct first_fit : public std::function<bool(place, stxxl::int64)>
     {
         bool operator () (
             const place& entry,
@@ -189,7 +189,9 @@ void disk_allocator::new_blocks(BID<BlockSize>* begin, BID<BlockSize>* end)
 
     sortseq::iterator space;
     space = std::find_if(free_space.begin(), free_space.end(),
-                         bind2nd(first_fit(), requested_size) _STXXL_FORCE_SEQUENTIAL);
+                         [f = first_fit(), requested_size](auto x) {
+                             return f(x, requested_size);
+                         } _STXXL_FORCE_SEQUENTIAL);
 
     if (space == free_space.end() && requested_size == BlockSize)
     {
@@ -207,7 +209,9 @@ void disk_allocator::new_blocks(BID<BlockSize>* begin, BID<BlockSize>* end)
         grow_file(BlockSize);
 
         space = std::find_if(free_space.begin(), free_space.end(),
-                             bind2nd(first_fit(), requested_size) _STXXL_FORCE_SEQUENTIAL);
+                             [f = first_fit(), requested_size](auto x) {
+                                 return f(x, requested_size);
+                             } _STXXL_FORCE_SEQUENTIAL);
     }
 
     if (space != free_space.end())

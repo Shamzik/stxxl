@@ -51,7 +51,7 @@ struct trigger_entry
 
 template <typename TriggerEntryType, typename ValueCmp>
 struct trigger_entry_cmp
-    : public std::binary_function<TriggerEntryType, TriggerEntryType, bool>
+    : public std::function<bool(TriggerEntryType, TriggerEntryType)>
 {
     typedef TriggerEntryType trigger_entry_type;
     ValueCmp cmp;
@@ -67,11 +67,7 @@ template <typename BlockType,
           typename PrefetcherType,
           typename ValueCmp>
 struct run_cursor2_cmp
-    : public std::binary_function<
-          run_cursor2<BlockType, PrefetcherType>,
-          run_cursor2<BlockType, PrefetcherType>,
-          bool
-          >
+    : public std::function<bool(run_cursor2<BlockType, PrefetcherType>, run_cursor2<BlockType, PrefetcherType>)>
 {
     typedef BlockType block_type;
     typedef PrefetcherType prefetcher_type;

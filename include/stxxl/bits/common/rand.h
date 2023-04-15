@@ -245,14 +245,23 @@ template <class UniformRGen = random_uniform_fast>
 struct random_number
 {
     typedef unsigned value_type;
+    typedef unsigned result_type;
     UniformRGen uniform;
+    
+    static constexpr result_type min() {
+        return 0;
+    }
+    
+    static constexpr result_type max() {
+        return std::numeric_limits<value_type>::max() - 1;
+    }
 
     random_number(unsigned seed = get_next_seed())
         : uniform(seed)
     { }
 
     //! Returns a random number from [0, N)
-    inline value_type operator () (value_type N) const
+    inline result_type operator () (value_type N = std::numeric_limits<value_type>::max()) const
     {
         return static_cast<value_type>(uniform() * double(N));
     }

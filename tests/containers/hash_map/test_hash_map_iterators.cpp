@@ -101,9 +101,12 @@ void cmp_with_internal_map()
         map.insert_oblivious(*val_it);
         int_map.insert(*val_it);
     }
+    
+    std::random_device rd;
+    std::mt19937 g(rd());
 
     // --- erase and overwrite some external values
-    std::random_shuffle(values1.begin(), values1.end());
+    std::shuffle(values1.begin(), values1.end(), g);
     val_it = values1.begin();
     for ( ; val_it != values1.begin() + n_tests; ++val_it) {
         map.erase_oblivious(val_it->first);
@@ -189,8 +192,12 @@ void basic_iterator_test()
 
     // --- actual testing begins: modfiy random values via iterator
     std::cout << "Lookup and modify...";
-    std::random_shuffle(values1.begin(), values1.end());
-    std::random_shuffle(values2.begin(), values2.end());
+    
+    std::random_device rd;
+    std::mt19937 g(rd());
+    
+    std::shuffle(values1.begin(), values1.end(), g);
+    std::shuffle(values2.begin(), values2.end(), g);
     for (unsigned_type i = 0; i < n_tests; ++i) {
         iterator it1 = map.find(values1[i].first);
         iterator it2 = map.find(values2[i].first);
@@ -226,8 +233,8 @@ void basic_iterator_test()
 
     // --- interator-value altered by insert_oblivious
     std::cout << "Iterator-value altered by insert_oblivious...";
-    std::random_shuffle(values1.begin(), values1.end());
-    std::random_shuffle(values2.begin(), values2.end());
+    std::shuffle(values1.begin(), values1.end(), g);
+    std::shuffle(values2.begin(), values2.end(), g);
     for (unsigned_type i = 0; i < n_tests; i++) {
         int key1 = values1[i].first;
         int key2 = values2[i].first;
@@ -246,8 +253,8 @@ void basic_iterator_test()
 
     // --- iterator-value altered by other iterator
     std::cout << "Iterator-value altered by other iterator...";
-    std::random_shuffle(values1.begin(), values1.end());
-    std::random_shuffle(values2.begin(), values2.end());
+    std::shuffle(values1.begin(), values1.end(), g);
+    std::shuffle(values2.begin(), values2.end(), g);
     for (unsigned_type i = 0; i < n_tests; i++) {
         const_iterator cit1 = cmap.find(values1[i].first);
         STXXL_CHECK(cit1 != cmap.end());
@@ -267,8 +274,8 @@ void basic_iterator_test()
 
     // --- erase by iterator
     std::cout << "Erase by iterator...";
-    std::random_shuffle(values1.begin(), values1.end());
-    std::random_shuffle(values2.begin(), values2.end());
+    std::shuffle(values1.begin(), values1.end(), g);
+    std::shuffle(values2.begin(), values2.end(), g);
     for (unsigned_type i = 0; i < n_tests; i++) {
         const_iterator cit1 = cmap.find(values1[i].first);
         STXXL_CHECK(cit1 != cmap.end());
@@ -344,8 +351,12 @@ void more_iterator_test()
 
     // --- store some iterators, rebuild and check
     std::cout << "Rebuild test...";
-    std::random_shuffle(values1.begin(), values1.end());
-    std::random_shuffle(values2.begin(), values2.end());
+    
+    std::random_device rd;
+    std::mt19937 g(rd());
+    
+    std::shuffle(values1.begin(), values1.end(), g);
+    std::shuffle(values2.begin(), values2.end(), g);
     {
         const_iterator cit1 = cmap.find(values1[17].first);
         const_iterator cit2 = cmap.find(values2[19].first);

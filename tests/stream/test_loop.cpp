@@ -70,7 +70,7 @@ struct random_generator
 };
 
 template <typename value_type>
-struct Cmp : std::binary_function<value_type, value_type, bool>
+struct Cmp : std::function<bool(value_type, value_type)>
 {
     bool operator () (const value_type& a, const value_type& b) const
     {

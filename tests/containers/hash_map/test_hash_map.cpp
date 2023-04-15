@@ -180,9 +180,12 @@ void basic_test()
     // --- values
     std::cout << "Find...";
     stats_begin = *stxxl::stats::get_instance();
+    
+    std::random_device rd;
+    std::mt19937 g(rd());
 
-    std::random_shuffle(values1.begin(), values1.end());
-    std::random_shuffle(values2.begin(), values2.end());
+    std::shuffle(values1.begin(), values1.end(), g);
+    std::shuffle(values2.begin(), values2.end(), g);
     for (unsigned_type i = 0; i < n_tests; i++) {
         STXXL_CHECK(cmap.find(values1[i].first) != cmap.end());
         STXXL_CHECK(cmap.find(values2[i].first) != cmap.end());
@@ -195,8 +198,8 @@ void basic_test()
     std::cout << "Insert with overwriting...";
     stats_begin = *stxxl::stats::get_instance();
 
-    std::random_shuffle(values1.begin(), values1.end());
-    std::random_shuffle(values2.begin(), values2.end());
+    std::shuffle(values1.begin(), values1.end(), g);
+    std::shuffle(values2.begin(), values2.end(), g);
     for (unsigned_type i = 0; i < n_tests; i++) {
         value_type value1 = values1[i];         // in external memory
         value1.second++;
@@ -222,9 +225,9 @@ void basic_test()
     std::cout << "Erase...";
     stats_begin = *stxxl::stats::get_instance();
 
-    std::random_shuffle(values1.begin(), values1.end());
-    std::random_shuffle(values2.begin(), values2.end());
-    std::random_shuffle(values3.begin(), values3.end());
+    std::shuffle(values1.begin(), values1.end(), g);
+    std::shuffle(values2.begin(), values2.end(), g);
+    std::shuffle(values3.begin(), values3.end(), g);
     for (unsigned_type i = 0; i < n_tests / 2; i++) {        // external
         // existing without checking
         map.erase_oblivious(values1[2 * i].first);
@@ -293,7 +296,7 @@ void basic_test()
     map.insert(values1.begin() + n_values / 2, values1.end(), mem_to_sort);
     STXXL_CHECK(map.size() == n_values);
     // lookup some random values
-    std::random_shuffle(values1.begin(), values1.end());
+    std::shuffle(values1.begin(), values1.end(), g);
     for (unsigned_type i = 0; i < n_tests; i++)
         STXXL_CHECK(cmap.find(values1[i].first) != cmap.end());
     std::cout << "passed" << std::endl;

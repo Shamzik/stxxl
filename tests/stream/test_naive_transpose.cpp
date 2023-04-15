@@ -54,7 +54,7 @@ public:
 };
 
 template <typename T>
-struct cmp_tuple_first : std::binary_function<T, T, bool>
+struct cmp_tuple_first : std::function<bool(T, T)>
 {
     typedef T value_type;
     typedef typename value_type::first_type first_value_type;

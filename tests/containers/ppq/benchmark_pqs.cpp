@@ -135,7 +135,7 @@ struct my_type
 
 template <typename ValueType>
 struct my_type_cmp_smaller
-    : public std::binary_function<ValueType, ValueType, bool>
+    : public std::function<bool(ValueType, ValueType)>
 {
     typedef ValueType value_type;
     typedef typename value_type::key_type key_type;
@@ -155,7 +155,7 @@ struct my_type_cmp_smaller
 
 template <typename ValueType>
 struct my_type_cmp_greater
-    : public std::binary_function<ValueType, ValueType, bool>
+    : public std::function<bool(ValueType, ValueType)>
 {
     typedef ValueType value_type;
     typedef typename value_type::key_type key_type;
@@ -170,7 +170,7 @@ struct my_type_cmp_greater
 };
 
 template <typename ValueType>
-struct less_min_max : public std::binary_function<ValueType, ValueType, bool>
+struct less_min_max : public std::function<bool(ValueType, ValueType)>
 {
     bool operator () (const ValueType& a, const ValueType& b) const
     {

@@ -42,7 +42,7 @@ struct my_type
     }
 };
 
-struct my_cmp : std::binary_function<my_type, my_type, bool> // greater
+struct my_cmp : std::function<bool(my_type, my_type)> // greater
 {
     bool operator () (const my_type& a, const my_type& b) const
     {

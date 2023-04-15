@@ -24,6 +24,7 @@
 #include <iomanip>
 #include <vector>
 #include <ctime>
+#include <random>
 
 #include <stxxl/io>
 #include <stxxl/mng>
@@ -109,7 +110,11 @@ void run_test(stxxl::int64 span, stxxl::int64 worksize, bool do_init, bool do_re
         std::cout << "Random block access..." << std::endl;
 
         srand((unsigned int)time(NULL));
-        std::random_shuffle(blocks.begin(), blocks.end());
+        
+        std::random_device rd;
+        std::mt19937 g(rd());
+        
+        std::shuffle(blocks.begin(), blocks.end(), g);
 
         begin = timestamp();
         if (do_read)
@@ -125,7 +130,7 @@ void run_test(stxxl::int64 span, stxxl::int64 worksize, bool do_init, bool do_re
                       << std::setw(5) << std::setprecision(1) << (double(num_blocks * raw_block_size) / MiB / elapsed) << " MiB/s read" << std::endl;
         }
 
-        std::random_shuffle(blocks.begin(), blocks.end());
+        std::shuffle(blocks.begin(), blocks.end(), g);
 
         begin = timestamp();
         if (do_write)

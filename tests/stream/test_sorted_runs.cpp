@@ -25,7 +25,7 @@ const int block_size = 1 * megabyte;
 
 typedef unsigned value_type;
 
-struct Cmp : public std::binary_function<value_type, value_type, bool>
+struct Cmp : public std::function<bool(value_type, value_type)>
 {
     typedef unsigned value_type;
     bool operator () (const value_type& a, const value_type& b) const

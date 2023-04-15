@@ -44,7 +44,7 @@ struct Input
     }
 };
 
-struct Cmp : std::binary_function<unsigned, unsigned, bool>
+struct Cmp : std::function<bool(unsigned, unsigned)>
 {
     typedef unsigned value_type;
     bool operator () (const value_type& a, const value_type& b) const

@@ -126,7 +126,7 @@ std::ostream& operator << (std::ostream& o, const my_data& obj)
 
 my_key min_key, max_key;
 
-struct comp_type : std::binary_function<my_key, my_key, bool>
+struct comp_type : std::function<bool(my_key, my_key)>
 {
     bool operator () (const my_key& a, const my_key& b) const
     {
